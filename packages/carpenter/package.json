@@ -1,0 +1,26 @@
+{
+  "name": "carpenter",
+  "version": "1.0.0-alpha.0",
+  "description": "Carpenter CLI wrapper package",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "carpenter": "./dist/bin.js"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./bin": "./dist/bin.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@formwork/cli": "*"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT"
+}

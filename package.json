@@ -1,0 +1,29 @@
+{
+  "name": "carpenter",
+  "version": "1.0.0-alpha.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "create-carpenter-app"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "test": "vitest run",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/bun": "latest",
+    "@types/node": "^25.5.0",
+    "turbo": "^2.8.20",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.1.0"
+  }
+}

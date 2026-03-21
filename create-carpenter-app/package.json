@@ -1,0 +1,25 @@
+{
+  "name": "create-carpenter-app",
+  "version": "1.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.1.0"
+  },
+  "bin": {
+    "create-carpenter-app": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./cli": "./dist/cli.js"
+  },
+  "types": "./dist/index.d.ts"
+}
