@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "workspaces": [
-    "packages/*",
+    "packages/carpenter",
     "create-carpenter-app"
   ],
   "scripts": {

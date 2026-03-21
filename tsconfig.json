@@ -6,7 +6,6 @@
   },
   "references": [
     { "path": "packages/carpenter" },
-    { "path": "packages/cli" },
     { "path": "create-carpenter-app" }
   ]
 }
