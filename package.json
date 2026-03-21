@@ -24,6 +24,8 @@
     "vitest": "^4.1.0"
   },
   "dependencies": {
-    "@clack/prompts": "^1.1.0"
+    "@clack/prompts": "^1.1.0",
+    "@formwork/cli": "link:../formworks/packages/cli",
+    "@formwork/core": "link:../formworks/packages/core"
   }
 }

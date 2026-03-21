@@ -17,7 +17,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "@formwork/cli": "github:formwork-carpentry/formworks#main"
+    "@formwork/cli": "workspace:*"
   },
   "files": [
     "dist"
