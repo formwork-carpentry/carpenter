@@ -1,37 +1,28 @@
 # Carpenter
 
-Scaffold new Carpenter projects with the right folder structure and formwork packages.
+Carpenter is the scaffolding and developer-experience layer for the Formworks platform. It provides project generation workflows and CLI utilities for consistent application bootstrapping.
+
+## Components
+
+- `create-carpenter-app`: project scaffolding package
+- `packages/carpenter`: CLI package for command-driven workflows
+- `formworks/`: linked package source used during local development
 
 ## Quick Start
 
 ```bash
-# Clone with submodules (pulls formworks automatically)
-git clone --recursive https://github.com/formwork-carpentry/carpenter.git
-cd carpenter
-
-# Install with bun
-bun install
-
-# Build
-bun run build
-
-# Create a new project
-bunx create-carpenter-app my-app
+npm install
+npm run build
 ```
 
-If you already cloned without `--recursive`:
+## Create a Project
 
 ```bash
-git submodule update --init --recursive
-bun install
+npx create-carpenter-app my-app
 ```
 
-## Packages
+## Engineering Principles
 
-- **carpenter** — CLI wrapper package (`packages/carpenter`)
-- **create-carpenter-app** — Interactive project scaffolder
-- **formworks/** — Git submodule with all `@formwork/*` packages (including `@formwork/cli`)
-
-## Formwork Packages
-
-The building blocks live in the [formworks](https://github.com/formwork-carpentry/formworks) repo and are pulled in as a git submodule.
+- Predictable scaffolding output
+- Clear preset strategy for different project shapes
+- Compatibility with npm and Bun developer workflows
