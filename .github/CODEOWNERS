@@ -1,0 +1,22 @@
+# CODEOWNERS
+# These owners will be the default owners for everything in the repo.
+# Each line is a file pattern followed by one or more owners.
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global owner
+* @elcomware
+
+# Core packages
+/packages/carpenter/ @elcomware
+
+# CLI tooling
+/create-carpenter-app/ @elcomware
+
+# CI / Automation
+/.github/ @elcomware
+
+# Documentation
+/CONTRIBUTING.md @elcomware
+/CODE_OF_CONDUCT.md @elcomware
+/SECURITY.md @elcomware
+/README.md @elcomware
