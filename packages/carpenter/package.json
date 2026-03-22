@@ -1,7 +1,7 @@
 {
-  "name": "carpenter",
+  "name": "carpenter-cli",
   "version": "1.0.0-alpha.0",
-  "description": "Carpenter CLI wrapper package",
+  "description": "Carpenter CLI — scaffold and manage Carpenter framework applications",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -17,10 +17,14 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "@formwork/cli": "workspace:*"
+    "@formwork/cli": "^1.0.0-alpha.0"
   },
   "files": [
     "dist"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^5.9.3"
+  }
 }

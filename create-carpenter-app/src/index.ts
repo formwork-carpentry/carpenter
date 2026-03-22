@@ -9,7 +9,7 @@
 
 // ── Types ─────────────────────────────────────────────────
 
-export type Preset = 'api' | 'fullstack' | 'minimal' | 'monolith';
+export type Preset = 'blank' | 'api' | 'fullstack' | 'minimal' | 'monolith' | 'saas';
 export type UIFramework = 'react' | 'vue' | 'svelte' | 'solid' | 'none';
 export type Database = 'postgres' | 'mysql' | 'sqlite' | 'mongodb';
 
@@ -68,10 +68,12 @@ export class ProjectGenerator {
 
     // Preset-specific files
     switch (this.config.preset) {
+      case 'blank': files.push(...this.blankPreset()); break;
       case 'api': files.push(...this.apiPreset()); break;
       case 'fullstack': files.push(...this.fullstackPreset()); break;
       case 'minimal': files.push(...this.minimalPreset()); break;
       case 'monolith': files.push(...this.monolithPreset()); break;
+      case 'saas': files.push(...this.saasPreset()); break;
     }
 
     // Database config
@@ -92,43 +94,20 @@ export class ProjectGenerator {
 
   private packageJson(): GeneratedFile {
     const deps: Record<string, string> = {
-      '@formwork/core': '^1.0.0-alpha.0',
-      '@formwork/foundation': '^0.1.0',
-      '@formwork/http': '^1.0.0-alpha.0',
-      '@formwork/log': '^1.0.0-alpha.0',
+      '@carpentry/formwork': '^1.0.0-alpha.0',
       'reflect-metadata': '^0.2.2',
     };
 
-    if (this.config.features.includes('auth')) {
-      deps['@formwork/auth'] = '^1.0.0-alpha.0';
-      deps['@formwork/orm'] = '^1.0.0-alpha.0';
-      deps['@formwork/session'] = '^1.0.0-alpha.0';
-      deps['@formwork/validation'] = '^1.0.0-alpha.0';
-    }
-    if (this.config.features.includes('cache')) deps['@formwork/cache'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('queue')) deps['@formwork/queue'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('mail')) deps['@formwork/mail'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('storage')) deps['@formwork/storage'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('realtime')) deps['@formwork/realtime'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('i18n')) deps['@formwork/i18n'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('tenancy')) deps['@formwork/tenancy'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('ai')) deps['@formwork/ai'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('admin')) deps['@formwork/admin'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('billing')) deps['@formwork/billing'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('graphql')) deps['@formwork/graphql'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('otel')) deps['@formwork/otel'] = '^1.0.0-alpha.0';
-    if (this.config.features.includes('flags')) deps['@formwork/flags'] = '^1.0.0-alpha.0';
-    if (this.config.preset === 'monolith') deps['@formwork/notifications'] = '^1.0.0-alpha.0';
-    if (this.config.ui !== 'none') deps['@formwork/ui'] = '^1.0.0-alpha.0';
-    if (this.config.ui === 'react') {
-      deps['react'] = '^19.2.0';
-      deps['react-dom'] = '^19.2.0';
-    }
-
+    // Database driver
     const dbPkg: Record<Database, string> = {
       postgres: 'pg', mysql: 'mysql2', sqlite: 'better-sqlite3', mongodb: 'mongodb',
     };
     deps[dbPkg[this.config.database]] = 'latest';
+
+    if (this.config.ui === 'react') {
+      deps['react'] = '^19.2.0';
+      deps['react-dom'] = '^19.2.0';
+    }
 
     return {
       path: 'package.json',
@@ -392,7 +371,20 @@ export class UserController extends BaseController {
     ];
   }
 
+  private blankPreset(): GeneratedFile[] { return []; }
+
   private minimalPreset(): GeneratedFile[] { return []; }
+
+  private saasPreset(): GeneratedFile[] {
+    return [
+      ...this.fullstackPreset(),
+      { path: 'src/jobs/ProcessOrder.ts', content: `import { BaseJob } from '@formwork/queue';\n\nexport class ProcessOrder extends BaseJob<{ orderId: number }> {\n  static queue = 'orders';\n  async handle(payload: { orderId: number }) {\n    // Process order\n  }\n}\n` },
+      { path: 'src/notifications/OrderShipped.ts', content: `import { BaseNotification } from '@formwork/notifications';\n\nexport class OrderShipped extends BaseNotification<{ orderId: number }> {\n  via() { return ['mail', 'database']; }\n}\n` },
+      { path: 'src/config/tenancy.ts', content: `export default {\n  defaultTenant: 'default',\n  identifyBy: 'subdomain',\n  tenantModel: 'Tenant',\n};\n` },
+      { path: 'src/config/billing.ts', content: `import { env } from '@formwork/core';\n\nexport default {\n  provider: env('BILLING_PROVIDER', 'stripe'),\n  currency: 'usd',\n  plans: {\n    free: { price: 0, features: ['basic'] },\n    pro: { price: 29, features: ['basic', 'advanced'] },\n    enterprise: { price: 99, features: ['basic', 'advanced', 'enterprise'] },\n  },\n};\n` },
+      { path: 'src/models/Tenant.ts', content: `import { BaseModel } from '@formwork/orm';\n\nexport class Tenant extends BaseModel {\n  static table = 'tenants';\n  static fillable = ['name', 'slug', 'plan', 'owner_id'];\n}\n` },
+    ];
+  }
 
   private monolithPreset(): GeneratedFile[] {
     return [

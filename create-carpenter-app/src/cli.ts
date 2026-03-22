@@ -50,7 +50,7 @@ interface PromptAdapter {
   close(): Promise<void>;
 }
 
-const PRESET_OPTIONS: Preset[] = ['api', 'fullstack', 'minimal', 'monolith'];
+const PRESET_OPTIONS: Preset[] = ['blank', 'api', 'fullstack', 'minimal', 'monolith', 'saas'];
 const DATABASE_OPTIONS: Database[] = ['postgres', 'mysql', 'sqlite', 'mongodb'];
 const UI_OPTIONS: UIFramework[] = ['react', 'vue', 'svelte', 'solid', 'none'];
 const PACKAGE_MANAGER_OPTIONS: NonNullable<CliArgs['packageManager']>[] = ['npm', 'pnpm', 'yarn', 'bun'];
@@ -278,10 +278,12 @@ USAGE
 
 OPTIONS
   --preset <preset>     Project template (default: interactive)
+                        blank      — Empty project, just @carpentry/formwork
                         api        — REST API with JWT auth, validation, queue
                         fullstack  — API + UI (React/Vue/Svelte) with SSR
                         minimal    — Bare-bones HTTP server, no ORM/auth
                         monolith   — Everything: API + UI + queue + mail + admin
+                        saas       — Multi-tenant SaaS with billing + tenancy
 
   --db <database>       Database driver to configure
                         postgres   — PostgreSQL (default)
@@ -349,10 +351,12 @@ export const DB_PACKAGES: Record<Database, string> = {
 
 // Preset → default features included
 export const PRESET_FEATURES: Record<Preset, string[]> = {
+  blank:     [],
   minimal:   [],
   api:       ['auth', 'cache', 'queue', 'mail'],
   fullstack: ['auth', 'cache', 'queue', 'mail', 'storage', 'i18n'],
   monolith:  ['auth', 'cache', 'queue', 'mail', 'storage', 'i18n', 'realtime', 'admin'],
+  saas:      ['auth', 'cache', 'queue', 'mail', 'storage', 'i18n', 'realtime', 'admin', 'tenancy', 'billing'],
 };
 
 // ── Disk Writer ───────────────────────────────────────────
