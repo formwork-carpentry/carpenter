@@ -1,31 +1,32 @@
 {
-  "name": "carpenter",
-  "version": "1.0.0-alpha.0",
-  "private": true,
-  "license": "MIT",
-  "type": "module",
+  "name": "@carpentry/carpenter",
+  "version": "1.0.0",
+  "description": "Carpenter — the full-stack TypeScript framework",
   "workspaces": [
-    "packages/carpenter",
+    "cli",
     "create-carpenter-app"
   ],
-  "scripts": {
-    "build": "turbo run build",
-    "test": "vitest run",
-    "lint": "biome check .",
-    "typecheck": "tsc --noEmit",
-    "clean": "turbo run clean"
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@types/bun": "latest",
-    "@types/node": "^25.5.0",
-    "turbo": "^2.8.20",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.0"
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@clack/prompts": "^1.1.0",
-    "@carpentry/cli": "link:formworks/packages/cli",
-    "@carpentry/core": "link:formworks/packages/core"
+    "@carpentry/formworks": "^1.0.0"
+  },
+  "peerDependencies": {
+    "@carpentry/db-sqlite": ">=1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@carpentry/db-sqlite": { "optional": true }
   }
 }
