@@ -321,24 +321,24 @@ EXAMPLES
 `;
 
 // ── Feature → Package Mapping ─────────────────────────────
-// Maps feature names to the @formwork/* packages they require.
+// Maps feature names to the @carpentry/* packages they require.
 // This is what makes Carpenter modular — you only install what you use.
 
 export const FEATURE_PACKAGES: Record<string, string[]> = {
-  auth:     ['@formwork/auth', '@formwork/session'],
-  cache:    ['@formwork/cache'],
-  queue:    ['@formwork/queue'],
-  mail:     ['@formwork/mail'],
-  storage:  ['@formwork/storage'],
-  realtime: ['@formwork/realtime'],
-  i18n:     ['@formwork/i18n'],
-  tenancy:  ['@formwork/tenancy'],
-  ai:       ['@formwork/ai'],
-  admin:    ['@formwork/admin'],
-  billing:  ['@formwork/billing'],
-  graphql:  ['@formwork/graphql'],
-  otel:     ['@formwork/otel'],
-  flags:    ['@formwork/flags'],
+  auth:     ['@carpentry/auth', '@carpentry/session'],
+  cache:    ['@carpentry/cache'],
+  queue:    ['@carpentry/queue'],
+  mail:     ['@carpentry/mail'],
+  storage:  ['@carpentry/storage'],
+  realtime: ['@carpentry/realtime'],
+  i18n:     ['@carpentry/i18n'],
+  tenancy:  ['@carpentry/tenancy'],
+  ai:       ['@carpentry/ai'],
+  admin:    ['@carpentry/admin'],
+  billing:  ['@carpentry/billing'],
+  graphql:  ['@carpentry/graphql'],
+  otel:     ['@carpentry/otel'],
+  flags:    ['@carpentry/flags'],
 };
 
 // Database driver → npm package

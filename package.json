@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@clack/prompts": "^1.1.0",
-    "@formwork/cli": "link:formworks/packages/cli",
-    "@formwork/core": "link:formworks/packages/core"
+    "@carpentry/cli": "link:formworks/packages/cli",
+    "@carpentry/core": "link:formworks/packages/core"
   }
 }

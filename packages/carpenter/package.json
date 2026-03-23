@@ -1,30 +1,28 @@
 {
-  "name": "carpenter-cli",
-  "version": "1.0.0-alpha.0",
-  "description": "Carpenter CLI — scaffold and manage Carpenter framework applications",
+  "name": "@carpentry/carpenter",
+  "version": "1.0.0",
+  "description": "Carpenter — the full-stack TypeScript framework",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "bin": {
-    "carpenter": "./dist/bin.js"
-  },
-  "exports": {
-    ".": "./dist/index.js",
-    "./bin": "./dist/bin.js"
-  },
+  "files": ["dist", "README.md"],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@formwork/cli": "^1.0.0-alpha.0"
+    "@carpentry/formworks": "workspace:*"
   },
-  "files": [
-    "dist"
-  ],
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^25.5.0",
-    "typescript": "^5.9.3"
+  "peerDependencies": {
+    "@carpentry/db-sqlite": ">=1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@carpentry/db-sqlite": { "optional": true }
   }
 }

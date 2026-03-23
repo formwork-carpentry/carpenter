@@ -2,7 +2,7 @@
 
 import { realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { main as runCarpenterCli } from '@formwork/cli/bin';
+import { main as runCarpenterCli } from '@carpentry/cli/bin';
 
 export async function main(argv: string[] = process.argv.slice(2)): Promise<number> {
   return runCarpenterCli(argv);

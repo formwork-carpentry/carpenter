@@ -205,7 +205,7 @@ export class ProjectGenerator {
   private appConfig(): GeneratedFile {
     return {
       path: 'src/config/app.ts',
-      content: `import { env } from '@formwork/core';
+      content: `import { env } from '@carpentry/core';
 
 export default {
   name: env('APP_NAME', '${this.config.name}'),
@@ -218,7 +218,7 @@ export default {
   }
 
   private appEntry(): GeneratedFile {
-    const imports = [`import 'reflect-metadata';`, `import { bootstrap } from '@formwork/foundation';`, `import { Router, HttpKernel, CarpenterResponse } from '@formwork/http';`, `import { registerRoutes } from './routes/web.js';`];
+    const imports = [`import 'reflect-metadata';`, `import { bootstrap } from '@carpentry/foundation';`, `import { Router, HttpKernel, CarpenterResponse } from '@carpentry/http';`, `import { registerRoutes } from './routes/web.js';`];
     const routeRegistrations = ['  registerRoutes(router);'];
 
     if (this.config.preset !== 'minimal') {
@@ -261,7 +261,7 @@ ${routeRegistrations.join('\n')}
   private serverEntry(): GeneratedFile {
     return {
       path: 'src/server.ts',
-      content: `import { serve } from '@formwork/http';
+      content: `import { serve } from '@carpentry/http';
 import { createApp } from './index.js';
 
 async function main() {
@@ -286,7 +286,7 @@ main().catch((error) => {
   private routesFile(): GeneratedFile {
     return {
       path: 'src/routes/web.ts',
-      content: `import { CarpenterResponse, type Router } from '@formwork/http';
+      content: `import { CarpenterResponse, type Router } from '@carpentry/http';
 
 export function registerRoutes(router: Router): void {
   router.get('/', async () => CarpenterResponse.json({
@@ -300,7 +300,7 @@ export function registerRoutes(router: Router): void {
   private databaseConfig(): GeneratedFile {
     return {
       path: 'src/config/database.ts',
-      content: `import { env } from '@formwork/core';
+      content: `import { env } from '@carpentry/core';
 
 export default {
   default: env('DB_CONNECTION', '${this.config.database}'),
@@ -325,7 +325,7 @@ export default {
     return [
       {
         path: 'src/routes/api.ts',
-        content: `import { CarpenterResponse, type Router } from '@formwork/http';
+        content: `import { CarpenterResponse, type Router } from '@carpentry/http';
 
 export function registerApiRoutes(router: Router): void {
   router.group({ prefix: '/api/v1' }, () => {
@@ -337,7 +337,7 @@ export function registerApiRoutes(router: Router): void {
       },
       {
         path: 'src/controllers/UserController.ts',
-        content: `import { BaseController } from '@formwork/http';
+        content: `import { BaseController } from '@carpentry/http';
 
 export class UserController extends BaseController {
   async index() { return this.json({ data: [], meta: { total: 0 } }); }
@@ -378,19 +378,19 @@ export class UserController extends BaseController {
   private saasPreset(): GeneratedFile[] {
     return [
       ...this.fullstackPreset(),
-      { path: 'src/jobs/ProcessOrder.ts', content: `import { BaseJob } from '@formwork/queue';\n\nexport class ProcessOrder extends BaseJob<{ orderId: number }> {\n  static queue = 'orders';\n  async handle(payload: { orderId: number }) {\n    // Process order\n  }\n}\n` },
-      { path: 'src/notifications/OrderShipped.ts', content: `import { BaseNotification } from '@formwork/notifications';\n\nexport class OrderShipped extends BaseNotification<{ orderId: number }> {\n  via() { return ['mail', 'database']; }\n}\n` },
+      { path: 'src/jobs/ProcessOrder.ts', content: `import { BaseJob } from '@carpentry/queue';\n\nexport class ProcessOrder extends BaseJob<{ orderId: number }> {\n  static queue = 'orders';\n  async handle(payload: { orderId: number }) {\n    // Process order\n  }\n}\n` },
+      { path: 'src/notifications/OrderShipped.ts', content: `import { BaseNotification } from '@carpentry/notifications';\n\nexport class OrderShipped extends BaseNotification<{ orderId: number }> {\n  via() { return ['mail', 'database']; }\n}\n` },
       { path: 'src/config/tenancy.ts', content: `export default {\n  defaultTenant: 'default',\n  identifyBy: 'subdomain',\n  tenantModel: 'Tenant',\n};\n` },
-      { path: 'src/config/billing.ts', content: `import { env } from '@formwork/core';\n\nexport default {\n  provider: env('BILLING_PROVIDER', 'stripe'),\n  currency: 'usd',\n  plans: {\n    free: { price: 0, features: ['basic'] },\n    pro: { price: 29, features: ['basic', 'advanced'] },\n    enterprise: { price: 99, features: ['basic', 'advanced', 'enterprise'] },\n  },\n};\n` },
-      { path: 'src/models/Tenant.ts', content: `import { BaseModel } from '@formwork/orm';\n\nexport class Tenant extends BaseModel {\n  static table = 'tenants';\n  static fillable = ['name', 'slug', 'plan', 'owner_id'];\n}\n` },
+      { path: 'src/config/billing.ts', content: `import { env } from '@carpentry/core';\n\nexport default {\n  provider: env('BILLING_PROVIDER', 'stripe'),\n  currency: 'usd',\n  plans: {\n    free: { price: 0, features: ['basic'] },\n    pro: { price: 29, features: ['basic', 'advanced'] },\n    enterprise: { price: 99, features: ['basic', 'advanced', 'enterprise'] },\n  },\n};\n` },
+      { path: 'src/models/Tenant.ts', content: `import { BaseModel } from '@carpentry/orm';\n\nexport class Tenant extends BaseModel {\n  static table = 'tenants';\n  static fillable = ['name', 'slug', 'plan', 'owner_id'];\n}\n` },
     ];
   }
 
   private monolithPreset(): GeneratedFile[] {
     return [
       ...this.fullstackPreset(),
-      { path: 'src/jobs/ProcessOrder.ts', content: `import { BaseJob } from '@formwork/queue';\n\nexport class ProcessOrder extends BaseJob<{ orderId: number }> {\n  static queue = 'orders';\n  async handle(payload: { orderId: number }) {\n    // Process order\n  }\n}\n` },
-      { path: 'src/notifications/OrderShipped.ts', content: `import { BaseNotification } from '@formwork/notifications';\n\nexport class OrderShipped extends BaseNotification<{ orderId: number }> {\n  via() { return ['mail', 'database']; }\n}\n` },
+      { path: 'src/jobs/ProcessOrder.ts', content: `import { BaseJob } from '@carpentry/queue';\n\nexport class ProcessOrder extends BaseJob<{ orderId: number }> {\n  static queue = 'orders';\n  async handle(payload: { orderId: number }) {\n    // Process order\n  }\n}\n` },
+      { path: 'src/notifications/OrderShipped.ts', content: `import { BaseNotification } from '@carpentry/notifications';\n\nexport class OrderShipped extends BaseNotification<{ orderId: number }> {\n  via() { return ['mail', 'database']; }\n}\n` },
     ];
   }
 
@@ -404,16 +404,16 @@ export class UserController extends BaseController {
       },
       {
         path: 'src/models/User.ts',
-        content: `import { BaseModel } from '@formwork/orm';\n\nexport class User extends BaseModel {\n  static table = 'users';\n  static fillable = ['name', 'email', 'password'];\n  static hidden = ['password'];\n  static userstamps = true;\n}\n`,
+        content: `import { BaseModel } from '@carpentry/orm';\n\nexport class User extends BaseModel {\n  static table = 'users';\n  static fillable = ['name', 'email', 'password'];\n  static hidden = ['password'];\n  static userstamps = true;\n}\n`,
       },
     ];
   }
 
   private queueConfig(): GeneratedFile {
-    return { path: 'src/config/queue.ts', content: `import { env } from '@formwork/core';\n\nexport default {\n  default: env('QUEUE_CONNECTION', 'sync'),\n  connections: {\n    sync: { driver: 'sync' },\n    redis: { driver: 'redis', host: env('REDIS_HOST', 'localhost') },\n  },\n};\n` };
+    return { path: 'src/config/queue.ts', content: `import { env } from '@carpentry/core';\n\nexport default {\n  default: env('QUEUE_CONNECTION', 'sync'),\n  connections: {\n    sync: { driver: 'sync' },\n    redis: { driver: 'redis', host: env('REDIS_HOST', 'localhost') },\n  },\n};\n` };
   }
 
   private mailConfig(): GeneratedFile {
-    return { path: 'src/config/mail.ts', content: `import { env } from '@formwork/core';\n\nexport default {\n  default: env('MAIL_MAILER', 'log'),\n  mailers: {\n    log: { driver: 'log' },\n    smtp: { driver: 'smtp', host: env('MAIL_HOST', 'localhost'), port: env('MAIL_PORT', 587) },\n  },\n  from: { email: 'noreply@example.com', name: env('APP_NAME', 'Carpenter') },\n};\n` };
+    return { path: 'src/config/mail.ts', content: `import { env } from '@carpentry/core';\n\nexport default {\n  default: env('MAIL_MAILER', 'log'),\n  mailers: {\n    log: { driver: 'log' },\n    smtp: { driver: 'smtp', host: env('MAIL_HOST', 'localhost'), port: env('MAIL_PORT', 587) },\n  },\n  from: { email: 'noreply@example.com', name: env('APP_NAME', 'Carpenter') },\n};\n` };
   }
 }

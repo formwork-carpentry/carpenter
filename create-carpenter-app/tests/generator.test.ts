@@ -22,9 +22,9 @@ describe('create-carpenter-app: ProjectGenerator', () => {
     const pkg = JSON.parse(files.find((f) => f.path === 'package.json')!.content);
 
     expect(pkg.name).toBe('test-app');
-    expect(pkg.dependencies['@formwork/core']).toBeDefined();
-    expect(pkg.dependencies['@formwork/foundation']).toBeDefined();
-    expect(pkg.dependencies['@formwork/http']).toBeDefined();
+    expect(pkg.dependencies['@carpentry/core']).toBeDefined();
+    expect(pkg.dependencies['@carpentry/foundation']).toBeDefined();
+    expect(pkg.dependencies['@carpentry/http']).toBeDefined();
     expect(pkg.dependencies['reflect-metadata']).toBeDefined();
     expect(pkg.dependencies['pg']).toBeDefined();
     expect(pkg.devDependencies['tsx']).toBeDefined();
@@ -46,7 +46,7 @@ describe('create-carpenter-app: ProjectGenerator', () => {
 
     expect(files.some((f) => f.path === 'src/pages/Home.tsx')).toBe(true);
     const pkg = JSON.parse(files.find((f) => f.path === 'package.json')!.content);
-    expect(pkg.dependencies['@formwork/ui']).toBeDefined();
+    expect(pkg.dependencies['@carpentry/ui']).toBeDefined();
   });
 
   it('minimal preset generates fewest files', () => {
@@ -87,12 +87,12 @@ describe('create-carpenter-app: ProjectGenerator', () => {
     expect(userModel).toContain('userstamps = true');
   });
 
-  it('no-ui preset excludes @formwork/ui dependency', () => {
+  it('no-ui preset excludes @carpentry/ui dependency', () => {
     const gen = new ProjectGenerator({ ui: 'none' });
     const files = gen.generate();
     const pkg = JSON.parse(files.find((f) => f.path === 'package.json')!.content);
 
-    expect(pkg.dependencies['@formwork/ui']).toBeUndefined();
+    expect(pkg.dependencies['@carpentry/ui']).toBeUndefined();
   });
 
   it('database config matches selected driver', () => {
